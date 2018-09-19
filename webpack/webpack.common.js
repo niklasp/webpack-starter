@@ -22,7 +22,7 @@ module.exports = {
       { from: Path.resolve(__dirname, '../public'), to: 'public' }
     ]),
     new HtmlWebpackPlugin({
-      template: Path.resolve(__dirname, '../src/index.html')
+      template: Path.resolve(__dirname, '../src/index.hbs')
     })
   ],
   resolve: {
@@ -40,7 +40,41 @@ module.exports = {
             name: '[path][name].[ext]'
           }
         }
-      }
+      },
+      {
+          test: /\.svg/,
+          use: {
+              loader: 'svg-url-loader',
+              options: {}
+          }
+      },
+      {
+          test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
+          use: [{
+              loader: 'file-loader',
+              options: {
+                  name: '[name].[ext]',
+                  outputPath: 'fonts/'
+              }
+          }]
+      },
+      {
+        test: /\.hbs$/,
+        loader: 'handlebars-loader'
+      },
+      {
+        test: /\.(gif|png|jpe?g)$/i,
+        use: [
+          'file-loader',
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              bypassOnDebug: true, // webpack@1.x
+              disable: true, // webpack@2.x and newer
+            },
+          },
+        ],
+      },
     ]
   }
 };

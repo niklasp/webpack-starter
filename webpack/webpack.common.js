@@ -60,7 +60,20 @@ module.exports = {
       },
       {
         test: /\.hbs$/,
-        loader: 'handlebars-loader'
+        use: [
+          {
+            loader: 'handlebars-loader'
+          },
+          {
+            loader: 'extract-loader'
+          },
+          {
+            loader: 'html-loader',
+            options: {
+              interpolate: true
+            }
+          }
+        ]
       },
       {
         test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2)(\?.*)?$/,
